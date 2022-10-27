@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs
+/Rangahau/.vs
+/Rangahau/conHandoff/bin/Debug/net6.0
+/Rangahau/conHandoff/obj
