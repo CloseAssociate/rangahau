@@ -6,3 +6,7 @@
 /Rangahau/.vs
 /Rangahau/conHandoff/bin/Debug/net6.0
 /Rangahau/conHandoff/obj
+/Rangahau/TestHandoff/bin
+/Rangahau/TestHandoff/obj
+/Rangahau/HandoffLibrary/bin/Debug/net6.0
+/Rangahau/HandoffLibrary/obj
