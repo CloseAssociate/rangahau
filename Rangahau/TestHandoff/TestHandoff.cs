@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Security.Cryptography;
 using FluentAssertions;
+using System.ComponentModel.DataAnnotations;
 
 namespace TestHandoff
 {
@@ -13,12 +14,12 @@ namespace TestHandoff
         {
             return new Handoff()
             {
-                NHI = "AXF1234",
+                NHI = "EPT6335",
                 SurvCode = Guid.NewGuid(),
                 PrimaryName = "Gates",
                 SecondaryNames = "William Jefferson",
                 KnownAs = "Bill",
-                EmailAddress = "bill@microsoft.com",
+                EmailAddress = "bill.gates@microsoft.com",
                 BiologicalSex = Sex.Male,
                 MobileNumber = "+64212274307",
                 DateOfBirth = new DateTime(1996, 3, 1),
@@ -65,7 +66,57 @@ namespace TestHandoff
             var handoff2 = JsonSerializer.Deserialize<Handoff>(roundTrip, options);
 
             handoff2.PrimaryName.Should().Be(handoff.PrimaryName);
+            handoff2.SecondaryNames.Should().Be(handoff.SecondaryNames);
             encryptedHandoffBase64.Length.Should().BeLessThan(2048);
+        }
+        
+        [TestMethod]
+        public void Handoff_nhi_should_not_validate()
+        {
+            var handoff = GetHandoff();
+            handoff.NHI = "AAA1234";
+
+            var context = new ValidationContext(handoff, serviceProvider: null, items: null);
+            var results = new List<ValidationResult>();
+            var isValid = Validator.TryValidateObject(handoff, context, results, true);
+
+            results.Should().HaveCount(1);
+        }
+        [TestMethod]
+        public void Handoff_nhi_should_validate()
+        {
+            var handoff = GetHandoff();
+
+            var context = new ValidationContext(handoff, serviceProvider: null, items: null);
+            var results = new List<ValidationResult>();
+            var isValid = Validator.TryValidateObject(handoff, context, results, true);
+
+            results.Should().HaveCount(0);
+        }
+        
+        [TestMethod]
+        public void Handoff_survcode_should_not_validate()
+        {
+            var handoff = GetHandoff();
+            handoff.SurvCode = Guid.Empty;
+
+            var context = new ValidationContext(handoff, serviceProvider: null, items: null);
+            var results = new List<ValidationResult>();
+            var isValid = Validator.TryValidateObject(handoff, context, results, true);
+
+            results.Should().HaveCount(1);
+        }
+        [TestMethod]
+        public void Handoff_survcode_should_validate()
+        {
+            var handoff = GetHandoff();
+            handoff.SurvCode = Guid.NewGuid();
+
+            var context = new ValidationContext(handoff, serviceProvider: null, items: null);
+            var results = new List<ValidationResult>();
+            var isValid = Validator.TryValidateObject(handoff, context, results, true);
+
+            results.Should().HaveCount(0);
         }
     }
 }
