@@ -40,6 +40,8 @@ public class Handoff
     [Required]
     public List<AssignedTest> AssignedTests { get; set; }
     [Required]
+    public List<ReportGP> ReportToGPs { get; set; }
+    [Required]
     public ManifestType ManifestType { get; set; }
 
 }

@@ -21,12 +21,16 @@ namespace TestHandoff
                 KnownAs = "Bill",
                 EmailAddress = "bill.gates@microsoft.com",
                 BiologicalSex = Sex.Male,
-                MobileNumber = "+64212274307",
+                MobileNumber = "+64212223333",
                 DateOfBirth = new DateTime(1996, 3, 1),
                 AssignedTests = new List<AssignedTest>()
                 {
                     new AssignedTest(){ Test = AssignedTestEnum.PCR },
                     new AssignedTest(){ Test = AssignedTestEnum.SEROLOGY },
+                },
+                ReportToGPs = new List<ReportGP>()
+                {
+                    new ReportGP(){ CPNNumber = "1234", FacilityCode = "5678" }
                 },
                 ManifestType = ManifestType.TestingOnly,
             };
