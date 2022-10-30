@@ -1,4 +1,3 @@
-using conHandoff;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Security.Cryptography;
@@ -30,7 +29,7 @@ namespace TestHandoff
                 },
                 ReportToGPs = new List<ReportGP>()
                 {
-                    new ReportGP(){ CPNNumber = "1234", FacilityCode = "5678" }
+                    new ReportGP(){  CPNNumber = "1234", FacilityCode = "5678"}
                 },
                 ManifestType = ManifestType.TestingOnly,
             };
