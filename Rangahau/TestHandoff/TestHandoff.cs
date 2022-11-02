@@ -121,5 +121,17 @@ namespace TestHandoff
 
             results.Should().HaveCount(0);
         }
+        [TestMethod]
+        public void Handoff_survcode_should_validate1()
+        {
+            var handoff = GetHandoff();
+            handoff.SurvCode = Guid.NewGuid();
+
+            var context = new ValidationContext(handoff, serviceProvider: null, items: null);
+            var results = new List<ValidationResult>();
+            var isValid = Validator.TryValidateObject(handoff, context, results, true);
+
+            results.Should().HaveCount(0);
+        }
     }
 }
