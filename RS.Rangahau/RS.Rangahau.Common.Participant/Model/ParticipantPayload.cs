@@ -1,22 +1,14 @@
-﻿/*
- * Example handoff data structure for sending participant data 
- * between Ministry of Health Data and Digital team and Rangahau
- * Version 0.1a Stephen Grice 28 October 2022
-*/
-
-using HandoffLibrary;
+﻿using RS.Rangahau.Common.Participant;
 using System.ComponentModel.DataAnnotations;
 
-public class Handoff
+public class ParticipantPayload
 {
     [Required]
     [RegularExpression(@"^[A-HJ-NP-Z]{3}[0-9]{4}$", ErrorMessage = "NZ NHIs are AAAnnnn format")]
     [StringLength(7, ErrorMessage = "NZ NHIs have 7 characters")]
-    [CustomValidation(typeof(Validate_Handoff), "ValidateNHI")]
+    [CustomValidation(typeof(NHIValidator), "ValidateNHI")]
     public string NHI { get; set; }
-    [Required]
-    [CustomValidation(typeof(Validate_Handoff), "ValidateGuid")]
-    public Guid SurvCode { get; set; }
+    public string SurvCode { get; set; }
     [Required]
     [StringLength(60, ErrorMessage = "Primary name too long")]
     public string PrimaryName { get; set; }
@@ -34,11 +26,12 @@ public class Handoff
     [StringLength(60, ErrorMessage = "Mobile number too long")]
     public string MobileNumber { get; set; }
     [Required]
-    public Sex BiologicalSex { get; set; }
+    public BiologicalSexType BiologicalSex { get; set; }
+    public List<string> Ethnicity { get; set; }
     [Required]
     public DateTime DateOfBirth { get; set; }
     [Required]
-    public List<AssignedTest> AssignedTests { get; set; }
+    public List<AssignedTestType> AssignedTests { get; set; }
     [Required]
     public List<ReportGP> ReportToGPs { get; set; }
     [Required]

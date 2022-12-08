@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HandoffLibrary\HandoffLibrary.csproj" />
+    <ProjectReference Include="..\RS.Rangahau.Common.Participant\RS.Rangahau.Common.Participant.csproj" />
   </ItemGroup>
 
 </Project>

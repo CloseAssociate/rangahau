@@ -6,23 +6,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace HandoffLibrary
+namespace RS.Rangahau.Common.Participant
 {
-    public class Validate_Handoff
+    public class NHIValidator
     {
         // The first 3 characters of an NHI number must be alphabetic, but not ‘I’ or ‘O’, to avoid confusion with one and zero. The 4th to 6th characters must be numeric. The 7th character is also numeric, and is a check digit based on modulus 11. 
-        private static string NHI_Pattern = @"^[A-HJ-NP-Z]{3}[0-9]{4}$";
+        protected static string NHI_Pattern = @"^[A-HJ-NP-Z]{3}[0-9]{4}$";
         // Each alphabet character is assigned a number based on the following table, plus 1
-        private static readonly char[] Letter_to_number_map = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+        protected static readonly char[] Letter_to_number_map = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
-        public static ValidationResult ValidateGuid(Guid guid, ValidationContext vc)
-        {
-            if (guid != Guid.Empty)
-                return ValidationResult.Success;
-            else
-                return new ValidationResult("Error, could not parse SurvCode"); 
-        }
-        
         public static ValidationResult ValidateNHI(string nhi, ValidationContext vc)
         {
             if (Is_NZ_NHI(nhi))
@@ -36,9 +28,9 @@ namespace HandoffLibrary
         /// </summary>
         /// <param name="NHI"></param>
         /// <returns>Returns true if a string is a valid New Zealand NHI number</returns>
-        static Boolean Is_NZ_NHI(string NHI_string)
+        protected static bool Is_NZ_NHI(string NHI_string)
         {
-            Boolean Is_NZ_NHI = false;
+            bool Is_NZ_NHI = false;
 
             Regex regex = new Regex(NHI_Pattern, RegexOptions.IgnoreCase);
             if (regex.IsMatch(NHI_string))
@@ -64,7 +56,7 @@ namespace HandoffLibrary
                     // If the check digit equals ‘10’, convert to ‘0’ (achieved using mod 10)
                     int checkDigit = (11 - checkSum) % 10;
 
-                    if (Char.GetNumericValue(NHI_string[6]) == checkDigit)
+                    if (char.GetNumericValue(NHI_string[6]) == checkDigit)
                     {
                         // if the last digit of the NHI matches the checkdigit, NHI is valid 
                         Is_NZ_NHI = true;
@@ -74,7 +66,7 @@ namespace HandoffLibrary
             return Is_NZ_NHI;
         }
 
-        private static int GetCharNumberValue(char character)
+        protected static int GetCharNumberValue(char character)
         {
             int charValue = Array.IndexOf(Letter_to_number_map, character);
             if (charValue > -1)
@@ -86,7 +78,7 @@ namespace HandoffLibrary
             {
                 // The letter wasn't found, so it must be a number.
                 // Get the numeric value of the character
-                charValue = (int)Char.GetNumericValue(character);
+                charValue = (int)char.GetNumericValue(character);
             }
             return charValue;
         }
